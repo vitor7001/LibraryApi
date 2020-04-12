@@ -1,5 +1,7 @@
 package com.vitor.libraryapi.service.implementacao;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.vitor.libraryapi.exception.BusinessException;
@@ -25,6 +27,12 @@ public class BookServiceImplementacao implements BookService {
 		}
 
 		return repository.save(book);
+	}
+
+	@Override
+	public Optional<Book> getById(Long id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
 	}
 
 }
