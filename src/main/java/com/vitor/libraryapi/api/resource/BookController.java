@@ -18,7 +18,7 @@ import com.vitor.libraryapi.api.exceptions.ApiErrors;
 import com.vitor.libraryapi.model.entity.Book;
 import com.vitor.libraryapi.service.BookService;
 
-import com.vitor.libraryapi.exception.BussinesException;
+import com.vitor.libraryapi.exception.BusinessException;
 
 @RestController
 @RequestMapping("/api/books")
@@ -52,9 +52,9 @@ public class BookController {
 
 	}
 	
-	@ExceptionHandler(BussinesException.class)
+	@ExceptionHandler(BusinessException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ApiErrors handleBussinesException(BussinesException ex){
+	public ApiErrors handleBussinesException(BusinessException ex){
 		
 		return new ApiErrors(ex);
 		

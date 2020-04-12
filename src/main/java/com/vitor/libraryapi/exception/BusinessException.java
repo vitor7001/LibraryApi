@@ -1,13 +1,13 @@
 package com.vitor.libraryapi.exception;
 
-public class BussinesException extends RuntimeException {
+public class BusinessException extends RuntimeException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public BussinesException(String string) {
+	public BusinessException(String string) {
 		super(string);
 	}
 

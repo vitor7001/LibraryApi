@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.validation.BindingResult;
 
-import com.vitor.libraryapi.exception.BussinesException;
+import com.vitor.libraryapi.exception.BusinessException;
 
 public class ApiErrors {
 
@@ -20,7 +20,7 @@ public class ApiErrors {
 
 	}
 
-	public ApiErrors(BussinesException ex) {
+	public ApiErrors(BusinessException ex) {
 		this.errors = Arrays.asList(ex.getMessage());
 
 	}
