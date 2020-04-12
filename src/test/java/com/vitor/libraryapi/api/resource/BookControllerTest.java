@@ -2,7 +2,7 @@ package com.vitor.libraryapi.api.resource;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.hamcrest.Matchers.hasSize;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ public class BookControllerTest {
 
 	@MockBean
 	BookService service;
-	
+
 	@Test
 	@DisplayName("Deve criar um livro com sucesso.")
 	public void createBookTest() throws Exception {
@@ -46,23 +46,33 @@ public class BookControllerTest {
 		BookDTO dto = BookDTO.builder().autor("Autor").title("Meu Livro").isbn("123321").build();
 
 		Book savedBook = Book.builder().id(1l).autor("Autor").title("Meu Livro").isbn("123321").build();
-		
+
 		BDDMockito.given(service.save(Mockito.any(Book.class))).willReturn(savedBook);
-		
+
 		String json = new ObjectMapper().writeValueAsString(dto);
 
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(BOOK_API)
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(json);
 
-		mvc.perform(request).andExpect(status().isCreated()).andExpect(jsonPath("id").isNotEmpty())
-				.andExpect(jsonPath("title").value(dto.getTitle())).andExpect(jsonPath("autor").value(dto.getAutor()))
-				.andExpect(jsonPath("isbn").value(dto.getIsbn()));
+		mvc.perform(request)
+			.andExpect(status().isCreated())
+			.andExpect(jsonPath("id").isNotEmpty())
+			.andExpect(jsonPath("title").value(dto.getTitle()))
+			.andExpect(jsonPath("autor").value(dto.getAutor()))
+			.andExpect(jsonPath("isbn").value(dto.getIsbn()));
 
 	}
 
 	@Test
 	@DisplayName("Deve lançar erro de validação quando não houver dados suficientes para criação do livro.")
-	public void createInvalidBookTest() {
+	public void createInvalidBookTest() throws Exception {
+		String json = new ObjectMapper().writeValueAsString(new BookDTO());
 
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(BOOK_API)
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(json);
+
+		mvc.perform(request)
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("errors", hasSize(3)));
 	}
 }
