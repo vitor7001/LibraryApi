@@ -1,6 +1,5 @@
 package com.vitor.libraryapi.api.resource;
 
-
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
@@ -19,6 +18,7 @@ import com.vitor.libraryapi.api.exceptions.ApiErrors;
 import com.vitor.libraryapi.model.entity.Book;
 import com.vitor.libraryapi.service.BookService;
 
+import com.vitor.libraryapi.exception.BussinesException;
 
 @RestController
 @RequestMapping("/api/books")
@@ -47,13 +47,20 @@ public class BookController {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ApiErrors handleValitionException(MethodArgumentNotValidException ex) {
 		BindingResult bindingResult = ex.getBindingResult();
-			
-		
+
 		return new ApiErrors(bindingResult);
-		
-		
+
+	}
 	
+	@ExceptionHandler(BussinesException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ApiErrors handleBussinesException(BussinesException ex){
+		
+		return new ApiErrors(ex);
+		
 	}
 	
 	
+	
+
 }
