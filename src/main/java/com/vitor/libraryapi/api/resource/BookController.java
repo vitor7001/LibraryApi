@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.vitor.libraryapi.api.dto.BookDTO;
 import com.vitor.libraryapi.api.exceptions.ApiErrors;
@@ -43,18 +44,14 @@ public class BookController {
 
 		return modelMapper.map(entity, BookDTO.class);
 	}
-	
-	
+
 	@GetMapping("{id}")
 	public BookDTO get(@PathVariable Long id) {
-		
-		Book book = service.getById(id).get();
-		
-		return modelMapper.map(book, BookDTO.class);
+
+		return service.getById(id).map(book -> modelMapper.map(book, BookDTO.class))
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
 	}
-	
-	
-	
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -64,16 +61,13 @@ public class BookController {
 		return new ApiErrors(bindingResult);
 
 	}
-	
+
 	@ExceptionHandler(BusinessException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ApiErrors handleBussinesException(BusinessException ex){
-		
+	public ApiErrors handleBussinesException(BusinessException ex) {
+
 		return new ApiErrors(ex);
-		
+
 	}
-	
-	
-	
 
 }
