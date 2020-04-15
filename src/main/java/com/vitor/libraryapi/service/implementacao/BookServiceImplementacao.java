@@ -32,7 +32,7 @@ public class BookServiceImplementacao implements BookService {
 	@Override
 	public Optional<Book> getById(Long id) {
 		// TODO Auto-generated method stub
-		return Optional.empty();
+		return repository.findById(id);
 	}
 
 	@Override
