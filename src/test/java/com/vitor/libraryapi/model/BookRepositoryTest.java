@@ -76,4 +76,17 @@ public class BookRepositoryTest {
 
 	}
 
+	@Test
+	@DisplayName("Deve deletar um livro pelo id informado.")
+	public void deleteBookById() {
+
+		Book book = createBook("12");
+		tem.persist(book);
+
+		repository.delete(book);
+
+		assertThat(repository.findById(book.getId())).isEmpty();
+
+	}
+
 }
