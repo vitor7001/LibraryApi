@@ -2,6 +2,8 @@ package com.vitor.libraryapi.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +33,7 @@ public class BookRepositoryTest {
 		// cenário
 		String isbn = "123";
 
-		Book book = Book.builder().title("Aventuras").autor("Joao").isbn(isbn).build();
+		Book book = createBook(isbn);
 
 		tem.persist(book);
 
@@ -41,6 +43,10 @@ public class BookRepositoryTest {
 		// verificação
 		assertThat(exists).isTrue();
 
+	}
+
+	private Book createBook(String isbn) {
+		return Book.builder().title("Aventuras").autor("Joao").isbn(isbn).build();
 	}
 
 	@Test
@@ -54,6 +60,19 @@ public class BookRepositoryTest {
 
 		// verificação
 		assertThat(exists).isFalse();
+
+	}
+
+	@Test
+	@DisplayName("Deve obter um livro por id")
+	public void findByIdTest() {
+
+		Book book = createBook("123");
+		tem.persist(book);
+
+		Optional<Book> foundBook = repository.findById(book.getId());
+
+		assertThat(foundBook.isPresent()).isTrue();
 
 	}
 
