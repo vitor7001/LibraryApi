@@ -87,8 +87,8 @@ public class LoanControllerTest {
 
 		mvc.perform(request)
 		.andExpect(status().isBadRequest())
-		.andExpect( jsonPath("errors", Matchers.hasSize(1)))
-		.andExpect(jsonPath("errors[0]").value("Book not found for passed isbn"));
+		.andExpect( jsonPath("erros", Matchers.hasSize(1)))
+		.andExpect(jsonPath("erros[0]").value("Book not found for passed isbn"));
 
 	}
 	
