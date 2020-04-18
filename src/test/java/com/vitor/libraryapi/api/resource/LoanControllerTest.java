@@ -1,5 +1,6 @@
 package com.vitor.libraryapi.api.resource;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -63,7 +64,7 @@ public class LoanControllerTest {
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(LOAN_API).accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON).content(json);
 
-		mvc.perform(request).andExpect(status().isCreated()).andExpect(jsonPath("id").value(1l));
+		mvc.perform(request).andExpect(status().isCreated()).andExpect(content().string("1"));
 
 	}
 
