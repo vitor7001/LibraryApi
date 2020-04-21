@@ -1,5 +1,6 @@
 package com.vitor.libraryapi.api.resource;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,6 +28,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vitor.libraryapi.api.dto.LoanDTO;
+import com.vitor.libraryapi.api.dto.ReturnedLoanDTO;
 import com.vitor.libraryapi.exception.BusinessException;
 import com.vitor.libraryapi.model.entity.Book;
 import com.vitor.libraryapi.model.entity.Loan;
@@ -105,7 +108,23 @@ public class LoanControllerTest {
 
 		mvc.perform(request).andExpect(status().isBadRequest()).andExpect(jsonPath("erros", Matchers.hasSize(1)))
 				.andExpect(jsonPath("erros[0]").value("Book already loaned!"));
+	}
 
+	@Test
+	@DisplayName("Deve retornar um livro.")
+	public void returnBookTest() throws Exception {
+
+		ReturnedLoanDTO dto = ReturnedLoanDTO.builder().returned(true).build();
+
+		Loan loanUpdate = Loan.builder().id(1l).build();
+		BDDMockito.given(loanService.getById(Mockito.anyLong())).willReturn(Optional.of(loanUpdate));
+
+		String json = new ObjectMapper().writeValueAsString(dto);
+
+		mvc.perform(patch(LOAN_API.concat("/1")).accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON).content(json)).andExpect(status().isOk());
+
+		Mockito.verify(loanService, Mockito.times(1)).update(loanUpdate);
 	}
 
 }

@@ -3,6 +3,8 @@ package com.vitor.libraryapi.api.resource;
 import java.time.LocalDate;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.vitor.libraryapi.api.dto.LoanDTO;
+import com.vitor.libraryapi.api.dto.ReturnedLoanDTO;
 import com.vitor.libraryapi.model.entity.Book;
 import com.vitor.libraryapi.model.entity.Loan;
 import com.vitor.libraryapi.service.BookService;
@@ -39,6 +42,16 @@ public class LoanControllers {
 
 		return entity.getId();
 
+	}
+
+	@PatchMapping("{id}")
+	public void returnBook(@PathVariable Long id, @RequestBody ReturnedLoanDTO dto) {
+
+		Loan loan = service.getById(id).get();
+
+		loan.setReturned(dto.getReturned());
+
+		service.update(loan);
 	}
 
 }

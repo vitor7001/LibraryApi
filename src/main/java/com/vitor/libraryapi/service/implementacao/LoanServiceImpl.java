@@ -1,5 +1,7 @@
 package com.vitor.libraryapi.service.implementacao;
 
+import java.util.Optional;
+
 import com.vitor.libraryapi.exception.BusinessException;
 import com.vitor.libraryapi.model.entity.Loan;
 import com.vitor.libraryapi.model.repository.LoanRepository;
@@ -23,6 +25,18 @@ public class LoanServiceImpl implements LoanService {
 		}
 
 		return repository.save(loan);
+	}
+
+	@Override
+	public Optional<Loan> getById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Loan update(Loan loan) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
