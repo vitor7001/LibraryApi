@@ -113,7 +113,7 @@ public class BookRepositoryTest {
 		assertThat(deletedBook).isNull();
 	}
 
-	private Book createBook(String isbn) {
+	public static Book createBook(String isbn) {
 		return Book.builder().title("Aventuras").autor("Joao").isbn(isbn).build();
 	}
 
