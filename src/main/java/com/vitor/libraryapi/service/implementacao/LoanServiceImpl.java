@@ -43,8 +43,8 @@ public class LoanServiceImpl implements LoanService {
 
 	@Override
 	public Page<Loan> find(LoanFilterDTO filterDTO, Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return repository.findByBookIsbnOrCustomer(filterDTO.getIsbn(), filterDTO.getCustomer(), pageable);
 	}
 
 }
