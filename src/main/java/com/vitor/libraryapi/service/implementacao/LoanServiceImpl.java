@@ -2,6 +2,10 @@ package com.vitor.libraryapi.service.implementacao;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.vitor.libraryapi.api.dto.LoanFilterDTO;
 import com.vitor.libraryapi.exception.BusinessException;
 import com.vitor.libraryapi.model.entity.Loan;
 import com.vitor.libraryapi.model.repository.LoanRepository;
@@ -35,6 +39,12 @@ public class LoanServiceImpl implements LoanService {
 	@Override
 	public Loan update(Loan loan) {
 		return repository.save(loan);
+	}
+
+	@Override
+	public Page<Loan> find(LoanFilterDTO filterDTO, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
