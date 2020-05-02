@@ -1,6 +1,7 @@
 package com.vitor.libraryapi.api.resource;
 
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -22,20 +23,22 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.vitor.libraryapi.api.dto.BookDTO;
+import com.vitor.libraryapi.api.dto.LoanDTO;
 import com.vitor.libraryapi.model.entity.Book;
+import com.vitor.libraryapi.model.entity.Loan;
 import com.vitor.libraryapi.service.BookService;
+import com.vitor.libraryapi.service.LoanService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/books")
+@RequiredArgsConstructor
 public class BookController {
 
-	private BookService service;
-	private ModelMapper modelMapper;
-
-	public BookController(BookService service, ModelMapper modelMapper) {
-		this.service = service;
-		this.modelMapper = modelMapper;
-	}
+	private final BookService service;
+	private final LoanService loanService;
+	private final ModelMapper modelMapper;
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -92,6 +95,29 @@ public class BookController {
 		return new PageImpl<BookDTO>(list, pageRequest, resultado.getTotalElements());
 	}
 
+	@GetMapping("{id}/loans")
+	public Page<LoanDTO> loansByBook(@PathVariable Long idLivro, Pageable page) {
 
+		Book book = service.getById(idLivro).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+		Page<Loan> result = loanService.getLoansByBook(book, page);
+
+		List<LoanDTO> list = result.getContent().stream().map(loan -> {
+
+			Book loanBook = loan.getBook();
+
+			BookDTO bookDTO = modelMapper.map(loanBook, BookDTO.class);
+
+			LoanDTO loanDTO = modelMapper.map(loan, LoanDTO.class);
+
+			loanDTO.setBook(bookDTO);
+
+			return loanDTO;
+
+		}).collect(Collectors.toList());
+
+		return new PageImpl<LoanDTO>(list, page, result.getTotalElements());
+
+	}
 
 }
