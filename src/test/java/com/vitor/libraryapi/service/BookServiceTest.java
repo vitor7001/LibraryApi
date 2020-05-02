@@ -176,13 +176,11 @@ public class BookServiceTest {
 
 		Book book = createBook();
 
+		PageRequest pageRequest = PageRequest.of(0, 10);
 
-        PageRequest pageRequest = PageRequest.of(0, 10);
-
-        List<Book> lista = Arrays.asList(book);
-        Page<Book> page = new PageImpl<Book>(lista, pageRequest, 1);
-        when( repository.findAll(Mockito.any(Example.class), Mockito.any(PageRequest.class)))
-                .thenReturn(page);
+		List<Book> lista = Arrays.asList(book);
+		Page<Book> page = new PageImpl<Book>(lista, pageRequest, 1);
+		Mockito.when(repository.findAll(Mockito.any(Example.class), Mockito.any(PageRequest.class))).thenReturn(page);
 		Page<Book> result = service.find(book, pageRequest);
 
 		assertThat(result.getTotalElements()).isEqualTo(1);

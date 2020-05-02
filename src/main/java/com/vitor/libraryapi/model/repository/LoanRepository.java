@@ -12,9 +12,12 @@ import com.vitor.libraryapi.model.entity.Loan;
 public interface LoanRepository extends JpaRepository<Loan, Long> {
 
 	@Query(value = " select case when ( count(loan.id) > 0 ) then true else false end "
-			+ " from Loan loan where loan.book = :book and ( loan.returned is null or loan.returned is false ) ")
+			+ " from Loan as loan where loan.book = :book and ( loan.returned is null or loan.returned is false ) ")
 	boolean existsByBookAndNotReturned(@Param("book") Book book);
 
-	Page<Loan> findByBookIsbnOrCustomer(String isbn, String customer, Pageable request);
+	@Query(value = " select loan from Loan as loan join loan.book as book where book.isbn = :isbn"
+			+ " or loan.customer = :customer ")
+	Page<Loan> findByBookIsbnOrCustomer(@Param("isbn") String isbn, @Param("customer") String customer,
+			Pageable request);
 
 }
