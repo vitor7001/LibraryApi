@@ -61,7 +61,7 @@ public class LoanControllerTest {
 	@DisplayName("Deve realizar um empréstimo.")
 	public void createLoanTest() throws Exception {
 
-		LoanDTO dto = LoanDTO.builder().isbn("123").customer("João").build();
+		LoanDTO dto = LoanDTO.builder().isbn("123").email("customer@email.com").customer("João").build();
 
 		String json = new ObjectMapper().writeValueAsString(dto);
 
@@ -166,12 +166,9 @@ public class LoanControllerTest {
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(LOAN_API.concat(queryString))
 				.accept(MediaType.APPLICATION_JSON);
 
-		mvc.perform(request)
-		.andExpect(status().isOk())
-		.andExpect(jsonPath("content", Matchers.hasSize(1)))
-		.andExpect(jsonPath("totalElements").value(1))
-		.andExpect(jsonPath("pageable.pageSize").value(10))
-		.andExpect(jsonPath("pageable.pageNumber").value(0));
+		mvc.perform(request).andExpect(status().isOk()).andExpect(jsonPath("content", Matchers.hasSize(1)))
+				.andExpect(jsonPath("totalElements").value(1)).andExpect(jsonPath("pageable.pageSize").value(10))
+				.andExpect(jsonPath("pageable.pageNumber").value(0));
 	}
 
 }
