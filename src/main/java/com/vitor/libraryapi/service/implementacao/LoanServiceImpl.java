@@ -4,13 +4,16 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import com.vitor.libraryapi.api.dto.LoanFilterDTO;
 import com.vitor.libraryapi.exception.BusinessException;
+import com.vitor.libraryapi.model.entity.Book;
 import com.vitor.libraryapi.model.entity.Loan;
 import com.vitor.libraryapi.model.repository.LoanRepository;
 import com.vitor.libraryapi.service.LoanService;
 
+@Service
 public class LoanServiceImpl implements LoanService {
 
 	private LoanRepository repository;
@@ -45,6 +48,11 @@ public class LoanServiceImpl implements LoanService {
 	public Page<Loan> find(LoanFilterDTO filterDTO, Pageable pageable) {
 
 		return repository.findByBookIsbnOrCustomer(filterDTO.getIsbn(), filterDTO.getCustomer(), pageable);
+	}
+
+	@Override
+	public Page<Loan> getLoansByBook(Book book, Pageable page) {
+		return repository.findByBook(book, page);
 	}
 
 }
