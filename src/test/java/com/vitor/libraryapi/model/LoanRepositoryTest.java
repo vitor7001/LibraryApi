@@ -77,7 +77,7 @@ public class LoanRepositoryTest {
 	@DisplayName("Deve retornar vazio quando não houverem empréstimos atrasados")
 	public void notfindByLoanDateLessThanAndNotReturnedTest() {
 
-		Loan loan = createAndPersistLoan(LocalDate.now());
+		createAndPersistLoan(LocalDate.now());
 
 		List<Loan> result = repository.findByLoanDateLessThanAndNotReturned(LocalDate.now().minusDays(4));
 
