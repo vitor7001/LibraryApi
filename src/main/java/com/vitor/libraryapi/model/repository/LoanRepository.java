@@ -1,5 +1,8 @@
 package com.vitor.libraryapi.model.repository;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,5 +24,9 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
 			Pageable request);
 
 	Page<Loan> findByBook(Book book, Pageable page);
+
+	@Query(" select loan from Loan loan where loan.loanDate <= :threeDayAgo "
+			+ "and ( loan.returned is null or loan.returned is false ) ")
+	List<Loan> findByLoanDateLessThanAndNotReturned(@Param("threeDayAgo") LocalDate threeDayAgo);
 
 }

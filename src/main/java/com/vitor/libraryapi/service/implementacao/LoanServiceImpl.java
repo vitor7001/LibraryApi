@@ -1,5 +1,7 @@
 package com.vitor.libraryapi.service.implementacao;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -53,6 +55,17 @@ public class LoanServiceImpl implements LoanService {
 	@Override
 	public Page<Loan> getLoansByBook(Book book, Pageable page) {
 		return repository.findByBook(book, page);
+	}
+
+	@Override
+	public List<Loan> getAllLateLoans() {
+
+
+		final Integer loanDays = 4;
+		LocalDate threeDayAgo = LocalDate.now().minusDays(loanDays);
+				
+		
+		return repository.findByLoanDateLessThanAndNotReturned(threeDayAgo);
 	}
 
 }
