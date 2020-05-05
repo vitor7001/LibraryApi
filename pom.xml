@@ -13,7 +13,7 @@
 	<artifactId>library-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>library-api</name>
-	<description>API para um projeto de bibliotecas</description>
+	<description>API para um projeto de bibliotecas para controlar o aluguel de livros</description>
 
 	<properties>
 		<java.version>1.8</java.version>
