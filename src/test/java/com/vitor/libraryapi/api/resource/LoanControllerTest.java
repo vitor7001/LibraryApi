@@ -37,7 +37,6 @@ import com.vitor.libraryapi.exception.BusinessException;
 import com.vitor.libraryapi.model.entity.Book;
 import com.vitor.libraryapi.model.entity.Loan;
 import com.vitor.libraryapi.service.BookService;
-import com.vitor.libraryapi.service.EmailService;
 import com.vitor.libraryapi.service.LoanService;
 import com.vitor.libraryapi.service.LoanServiceTest;
 
@@ -57,9 +56,6 @@ public class LoanControllerTest {
 
 	@MockBean
 	private LoanService loanService;
-
-	@MockBean
-	private EmailService emailService;
 
 	@Test
 	@DisplayName("Deve realizar um empréstimo.")
