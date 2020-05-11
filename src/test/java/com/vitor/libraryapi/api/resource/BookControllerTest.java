@@ -32,6 +32,8 @@ import com.vitor.libraryapi.api.dto.BookDTO;
 import com.vitor.libraryapi.exception.BusinessException;
 import com.vitor.libraryapi.model.entity.Book;
 import com.vitor.libraryapi.service.BookService;
+import com.vitor.libraryapi.service.EmailService;
+import com.vitor.libraryapi.service.LoanService;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -46,6 +48,12 @@ public class BookControllerTest {
 
 	@MockBean
 	BookService service;
+
+	@MockBean
+	LoanService loanService;
+
+	@MockBean
+	EmailService emailService;
 
 	@Test
 	@DisplayName("Deve criar um livro com sucesso.")
