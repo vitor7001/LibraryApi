@@ -1,4 +1,4 @@
-#library-api
+#LibraryApi
 
 [![Build Status](https://travis-ci.org/vitor7001/LibraryApi.svg?branch=master)](https://travis-ci.org/vitor7001/LibraryApi)
 
